@@ -272,7 +272,29 @@ class BERTopic:
             self.custom_embeddings = True
 
         # Reduce dimensionality with UMAP
-        umap_embeddings = self._reduce_dimensionality(embeddings)
+        import os
+        if os.path.exists('umap_embeddings.joblib'):
+            # then load 'umap_embeddings.joblib'
+            
+            import time
+            # get starting time
+            start = time.time()
+            import joblib
+            umap_emeddings = joblib.load('umap_embeddings.joblib')
+            elapsed_time = (time.time() - start)
+            print('Loading time: {} seconds'.format(elapsed_time)) #60 seconds in the minute
+
+        else:
+            umap_embeddings = self._reduce_dimensionality(embeddings)
+            # and then save umap_embeddings
+            
+            import joblib
+            import time
+            # get starting time
+            start = time.time()
+            joblib.dump(umap_embeddings, 'umap_embeddings.joblib')
+            elapsed_time = (time.time() - start)
+            print('saving time: {} seconds'.format(elapsed_time)) #60 seconds in the minute
 
         # Cluster UMAP embeddings with HDBSCAN
         documents, probabilities = self._cluster_embeddings(umap_embeddings, documents)
@@ -753,7 +775,8 @@ class BERTopic:
         self.cluster_model = hdbscan.HDBSCAN(min_cluster_size=self.min_topic_size,
                                              metric='euclidean',
                                              cluster_selection_method='eom',
-                                             prediction_data=True).fit(umap_embeddings)
+                                             prediction_data=True,
+                                             core_dist_n_jobs=-2).fit(umap_embeddings)
         documents['Topic'] = self.cluster_model.labels_
 
         if self.calculate_probabilities:
