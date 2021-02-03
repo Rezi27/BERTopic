@@ -289,7 +289,7 @@ class BERTopic:
             # get starting time
             start = time.time()
             import joblib
-            umap_emeddings = joblib.load('umap_embeddings.joblib')
+            umap_embeddings = joblib.load('umap_embeddings.joblib')
             elapsed_time = (time.time() - start)
             print('Loading time: {} seconds'.format(elapsed_time)) #60 seconds in the minute
 
