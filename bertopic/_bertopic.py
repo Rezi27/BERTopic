@@ -275,16 +275,20 @@ class BERTopic:
         import os
         if not os.path.exists('umap_embeddings.joblib'):
             print('No umap_embeddings.joblib exists, so let us produce it')
-            umap_embeddings = self._reduce_dimensionality(embeddings) # first produce umap_embeddings
-            # and then save umap_embeddings
             import joblib
             import time
-            # get starting time
             start = time.time()
-            joblib.dump(umap_embeddings, 'umap_embeddings.joblib')
+            umap_embeddings = self._reduce_dimensionality(embeddings) # first produce umap_embeddings
             elapsed_time = (time.time() - start)
+            print('producing time: {} minutes'.format(elapsed_time)/60) #60 seconds in the minute
+            # and then save umap_embeddings
+            
+            # get starting time
             print('and then save umap_embeddings.joblib to load it later')
-            print('umap_embeddings.joblib saving time: {} seconds'.format(elapsed_time)) #60 seconds in the minute
+            start1 = time.time()
+            joblib.dump(umap_embeddings, 'umap_embeddings.joblib')
+            elapsed_time1 = (time.time() - start1)
+            print('umap_embeddings.joblib saving time: {} seconds'.format(elapsed_time1)) #60 seconds in the minute
         else:
             # then load 'umap_embeddings.joblib'
             print('umap_embeddings.joblib was found, so let us load it')
