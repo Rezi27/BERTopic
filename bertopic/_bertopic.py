@@ -274,6 +274,7 @@ class BERTopic:
         # Reduce dimensionality with UMAP
         import os
         if not os.path.exists('umap_embeddings.joblib'):
+            print('No umap_embeddings.joblib exists, so let us produce it')
             umap_embeddings = self._reduce_dimensionality(embeddings) # first produce umap_embeddings
             # and then save umap_embeddings
             import joblib
@@ -282,19 +283,24 @@ class BERTopic:
             start = time.time()
             joblib.dump(umap_embeddings, 'umap_embeddings.joblib')
             elapsed_time = (time.time() - start)
+            print('and then save umap_embeddings.joblib to load it later')
             print('umap_embeddings.joblib saving time: {} seconds'.format(elapsed_time)) #60 seconds in the minute
         else:
             # then load 'umap_embeddings.joblib'
+            print('umap_embeddings.joblib was found, so let us load it')
             import time
             # get starting time
             start = time.time()
             import joblib
             umap_embeddings = joblib.load('umap_embeddings.joblib')
             elapsed_time = (time.time() - start)
-            print('Loading time: {} seconds'.format(elapsed_time)) #60 seconds in the minute
+            print('umap_embeddings.joblib loading time: {} seconds'.format(elapsed_time)) #60 seconds in the minute
 
         # Cluster UMAP embeddings with HDBSCAN
+        print('Now Cluster UMAP embeddings with HDBSCAN')
+        print('Clustering....')
         documents, probabilities = self._cluster_embeddings(umap_embeddings, documents)
+        print('Clustering has finished')
 
         # Extract topics by calculating c-TF-IDF
         self._extract_topics(documents)
