@@ -783,7 +783,7 @@ class BERTopic:
                                              metric='euclidean',
                                              cluster_selection_method='eom',
                                              prediction_data=True,
-                                             core_dist_n_jobs=-2).fit(umap_embeddings)
+                                             core_dist_n_jobs=1).fit(umap_embeddings)
         documents['Topic'] = self.cluster_model.labels_
 
         if self.calculate_probabilities:
