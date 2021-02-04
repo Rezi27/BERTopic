@@ -280,7 +280,7 @@ class BERTopic:
             start = time.time()
             umap_embeddings = self._reduce_dimensionality(embeddings) # first produce umap_embeddings
             elapsed_time = (time.time() - start)
-            print('producing time: {} minutes'.format(elapsed_time)/60)) #60 seconds in the minute
+            print('producing time: {} minutes'.format(elapsed_time/60)) #60 seconds in the minute
             # and then save umap_embeddings
             
             # get starting time
@@ -298,7 +298,7 @@ class BERTopic:
             import joblib
             umap_embeddings = joblib.load('umap_embeddings.joblib')
             elapsed_time = (time.time() - start)
-            print('umap_embeddings.joblib loading time: {} seconds'.format(elapsed_time)) #60 seconds in the minute
+            print('umap_embeddings.joblib loading time: {} seconds'.format(elapsed_time))
 
         # Cluster UMAP embeddings with HDBSCAN
         print('Now Cluster UMAP embeddings with HDBSCAN')
