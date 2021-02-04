@@ -280,7 +280,7 @@ class BERTopic:
             start = time.time()
             umap_embeddings = self._reduce_dimensionality(embeddings) # first produce umap_embeddings
             elapsed_time = (time.time() - start)
-            print('producing time: {} minutes'.format(elapsed_time/60)) #60 seconds in the minute
+            print('Producing time in minutes: {}'.format(elapsed_time/60)) #60 seconds in the minute
             # and then save umap_embeddings
             
             # get starting time
